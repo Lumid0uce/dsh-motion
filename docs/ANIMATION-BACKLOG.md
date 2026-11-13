@@ -98,3 +98,25 @@ dsh-motion 是一个**纯样式插件**：往 `shell.overlay` 槽里塞一个 `<
   `@starting-style` 留作以后处理「`display:none` ↔ `block` 切换、且过渡不该有起始帧副作用」的备选。
 - **禁用 `transform`**：宿主大量元素自己用 `transform` 做定位/居中/拖拽/翻转，
   所以本插件只碰 `translate` / `scale` / `rotate` 这些独立变换属性，以及 `opacity` / 颜色 / `box-shadow`。
+
+## 七、包级盘点（2026-11-14 07:00 闭环）
+
+把 `@deepseek-ai/dsh-client-ui-*` 共 62 个包按「有没有自己的视觉」过了一遍（看 `className` 用法与是否自带 CSS Module），结论三类：
+
+**A. 无视觉 / 纯逻辑（8 个，没东西可动）**
+`directory-picker-native`、`file-actions`、`file-drag`、`reference`、`session`、`settings`、`settings-agent-loop`、`settings-shell`
+—— 这些都是 provider / 事件层 / 路由层，`className` 为 0，不渲染界面。
+
+**B. 有视觉但自己零动效，已被本插件的容器级规则覆盖（不必逐包再补）**
+- `directory-picker-browse` → 内部列 `[role="list"]` + `_column` 后缀（0.4.0）
+- `settings-plugins` → tab（0.6.0/0.6.5）；`settings-web-search` / `settings-subagent` / `settings-session-log` → 设置面板内容区 `[data-shortcut-modal="settings"] [class*="_options"] > *`（0.2.1）
+- `sidebar-terminal` / `sidebar-browser` / `sidebar-documentpreview` → 右侧栏 `[data-dockkit-pane]`（0.1.0）
+- `commands` → 结果行是 `role="option"`（0.2.0 按下反馈）；`context-menu` → 就是 `MenuSurface`（0.2.0 菜单下落）
+- `action-cards` / `agent-team` / `approval` / `goal` / `sidebar-files` / `workflow-run` → 各自的 `data-*` 钩子（0.3.x–0.5.0）
+
+**C. 剩下这几个不做，理由写死**
+- `brand-official`、`entry-customization`、`creation-recommendations`：一次性/极低频的引导卡，出现即静默也无人察觉，加动画只会让首屏更慢
+- `open-in-app`、`renderer`、`secret-mask`、`shortcuts`：都是行内小控件（按钮组、掩码、键位标签），动它们等于给每个小图标都加跳动，与「克制」冲突
+- `jobs`、`plan`、`schedule`、`skill`、`tool`、`trajectory`、`subagent`、`deliverables`、`settings-account`、`settings-general` 等自带 1–10 处动效的包：宿主已经做过了，本插件只在旁边补「宿主完全没有」的那一层，不叠加第二套
+
+> 结论：可见界面里「该有动画却没有」的位置已经处理完，后续心跳以「发现宿主版本变化 / 新包」为主，不再为凑数找动画。
