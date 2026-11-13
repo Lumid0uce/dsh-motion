@@ -14,6 +14,9 @@
 | 审批卡片（等权限确认）出现 | 淡入 + 上浮 8px，落地后一圈一次性外发光（只播一次，不循环） | 200ms + 700ms |
 | 目标条出现 | 淡入 + 上浮 6px | 180ms |
 | 计划卡片列出 | 逐张淡入 + 上浮，每张错开 40ms | 200ms |
+| 左侧栏的会话行 / 工作区行 / 文件树行（悬停、选中） | 底色与文字色渐变（宿主原本是硬切） | 140ms |
+| 文件树展开新目录 | 新出现的行淡入 + 上浮 3px | 120ms |
+| 目录选择器多列浏览（进入下一层） | 新一列淡入 + 上浮 4px | 140ms |
 | 弹出菜单出现（右键菜单、模型选择、权限选择、子菜单） | 淡入 + 下落 3px + 放大 0.985 → 1 | 150ms |
 | 切换类按钮按住（模型、思考强度、权限档位、各种 … 菜单） | 缩到 0.96，松开回弹 | 120ms |
 | 菜单项按住 | 缩到 0.985 | 110ms |
@@ -68,6 +71,7 @@ plugin_manager install_bundle target=<此仓库的绝对路径>
 - `data-menu-material` / `data-menu-backing`
 - `button[aria-haspopup]` / `role="menuitem"` / `role="option"`
 - `data-approval-key` / `data-goal-bar` / `data-plan-artifacts` + `data-plan-card`
+- `data-row-key`（侧栏会话行 / 工作区行）/ `data-files-row` / `[role="list"]` + `_column` 类名后缀
 
 哪一天宿主改名了，表现是「这块动画消失」，页面照常工作，不会白屏也不会报错。
 观察器匹配不到按钮时也只是不动。

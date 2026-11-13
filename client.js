@@ -141,7 +141,28 @@ const CSS = String.raw`
   animation: dsh-motion-rise 160ms var(--dsh-motion-ease) backwards;
 }
 
-/* ============ 三、任务状态面 ============ */
+/* ============ 三、侧栏与导航行 ============ */
+
+/* 侧栏的会话行、工作区行、文件树行：宿主的悬停/选中底色是硬切的（这几个包的 transition 计数全是 0），
+   补一段颜色过渡就够了。只动 color/background-color，不碰尺寸不碰布局。 */
+[data-row-key],
+[data-files-row] {
+  transition: background-color 140ms var(--dsh-motion-ease), color 140ms var(--dsh-motion-ease);
+}
+
+/* 文件树展开：新展开的子行才挂载，所以只有新出现的行会淡入。位移只 3px，120ms。 */
+[data-files-row] {
+  --dsh-motion-shift: 3px;
+  animation: dsh-motion-rise 120ms var(--dsh-motion-ease) backwards;
+}
+
+/* 目录选择器多列浏览：每深入一层就挂一列新的，新列自己浮上来。 */
+[role="list"][class*="_column"] {
+  --dsh-motion-shift: 4px;
+  animation: dsh-motion-rise 140ms var(--dsh-motion-ease) backwards;
+}
+
+/* ============ 四、任务状态面 ============ */
 
 /* 审批卡片：等权限确认的那一块。整个 UI 里最该被注意到的卡片，反而一点动效都没，
    所以位移比别处大一号（跟随卡片自己的局部变量，不影响全局）。 */
@@ -172,7 +193,7 @@ const CSS = String.raw`
 [data-plan-artifacts] > [data-plan-card]:nth-child(6) { animation-delay: 200ms; }
 [data-plan-artifacts] > [data-plan-card]:nth-child(n+7) { animation-delay: 200ms; }
 
-/* ============ 四、弹出菜单 ============ */
+/* ============ 五、弹出菜单 ============ */
 
 /* 宿主自己的菜单出场只有 40ms 纯透明度（context menu 走 --dsh-menu-enter），
    模型下拉干脆没有入场动画。这里在菜单面板本身上补一层动作，一次覆盖：
@@ -184,7 +205,7 @@ const CSS = String.raw`
   animation: dsh-motion-drop 150ms var(--dsh-motion-ease) backwards;
 }
 
-/* ============ 五、控件反馈 ============ */
+/* ============ 六、控件反馈 ============ */
 
 /* 按住时的内缩。aria-haspopup 精确圈住「点开菜单」这类按钮：
    模型切换、思考强度、权限档位、各种 … 菜单按钮。
@@ -211,7 +232,7 @@ button[aria-haspopup]:active:not([aria-expanded="true"]) {
   animation: dsh-motion-bump 240ms var(--dsh-motion-ease);
 }
 
-/* ============ 六、无障碍 ============ */
+/* ============ 七、无障碍 ============ */
 
 /* 系统层要求减少动态效果时，整套关掉（不是调慢）。 */
 @media (prefers-reduced-motion: reduce) {
@@ -225,6 +246,8 @@ button[aria-haspopup]:active:not([aria-expanded="true"]) {
   [data-approval-key] [class*="_card"],
   [data-goal-bar],
   [data-plan-artifacts] > [data-plan-card],
+  [data-files-row],
+  [role="list"][class*="_column"],
   [data-menu-material],
   [data-menu-backing],
   [data-dsh-motion-pop] {
@@ -233,7 +256,8 @@ button[aria-haspopup]:active:not([aria-expanded="true"]) {
   button[aria-haspopup],
   [role="menuitem"],
   [role="option"],
-  [class*="_navCell"] {
+  [class*="_navCell"],
+  [data-row-key] {
     transition: none;
     scale: 1;
   }
