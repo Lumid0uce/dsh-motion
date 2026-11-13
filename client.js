@@ -89,6 +89,18 @@ const CSS = String.raw`
   100% { scale: 1; }
 }
 
+/* 一次性呼吸：只播一次、不循环。给审批卡片用。
+   不用 color-mix 之类的颜色函数，只把外发光扩散开的同时退成 transparent，
+   色值只来自宿主 token + transparent，不会因为颜色语法不支持而整条规则失效。 */
+@keyframes dsh-motion-alert {
+  0% {
+    box-shadow: 0 0 0 0 var(--dsw-alias-state-warn-primary), var(--dsw-shadow-lv2);
+  }
+  100% {
+    box-shadow: 0 0 0 9px transparent, var(--dsw-shadow-lv2);
+  }
+}
+
 /* ============ 一、页面/面板 ============ */
 
 /* 主面板切换：会话 / 插件 / 设置等顶层面板之间互切时，主面板那格会换一个新
@@ -136,6 +148,11 @@ const CSS = String.raw`
 [data-approval-key] {
   --dsh-motion-shift: 8px;
   animation: dsh-motion-rise 200ms var(--dsh-motion-ease) backwards;
+}
+
+/* 上浮落地（200ms）后再补一圈一次性呼吸，把视线拉过来：只用 700ms，播完就干净。 */
+[data-approval-key] [class*="_card"] {
+  animation: dsh-motion-alert 700ms var(--dsh-motion-ease) 200ms backwards;
 }
 
 /* 目标条：目标建立/恢复时这个 dock 才挂上，否则 render null，所以进入动画刚好只在出现时播。 */
@@ -205,6 +222,7 @@ button[aria-haspopup]:active:not([aria-expanded="true"]) {
   [aria-hidden="true"][class*="_mask"],
   [data-shortcut-modal="settings"] [class*="_options"] > *,
   [data-approval-key],
+  [data-approval-key] [class*="_card"],
   [data-goal-bar],
   [data-plan-artifacts] > [data-plan-card],
   [data-menu-material],
