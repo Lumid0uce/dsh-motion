@@ -1,6 +1,6 @@
 # dsh-motion
 
-给 DeepSeek Harness（DSH）的**页面/面板切换**加上克制的过渡动画。纯样式表插件，不改任何宿主代码。
+给 DeepSeek Harness（DSH）的**页面/面板切换**和**切换类控件**加上克制的过渡动画。纯样式表插件（外加一个几十行的文字变化观察器），不改任何宿主代码。
 
 ## 动了哪些地方
 
@@ -9,15 +9,23 @@
 | 主面板切换（会话 ↔ 插件 ↔ 设置…） | 淡入 + 上浮 6px | 180ms |
 | 右侧栏换 tab | 淡入 + 上浮 6px | 180ms |
 | 弹窗 / 设置面板 / 平台页出现 | 淡入 + 放大 0.985 → 1 | 220ms |
+| 弹出菜单出现（右键菜单、模型选择、权限选择、子菜单） | 淡入 + 下落 3px + 放大 0.985 → 1 | 150ms |
+| 切换类按钮按住（模型、思考强度、权限档位、各种 … 菜单） | 缩到 0.96，松开回弹 | 120ms |
+| 菜单项按住 | 缩到 0.985 | 110ms |
+| 切换类按钮的值真的变了（换模型 / 换权限档位） | 轻微脉冲 1 → 1.06 → 1 | 240ms |
 
-- 统一 ease-out、位移 6px：目标是让「换了一屏」被眼睛接住，不是表演。
+- 统一 ease-out、位移 3–6px：目标是让「换了一屏」「值换了」被眼睛接住，不是表演。
 - 左侧导航抽屉自带轨道动画，**排除**，避免两套动画打架。
 - 同一面板内换会话**不触发**动画（面板根节点没重挂），所以不会每切一次会话就闪一下。
+- 宿主自己的菜单只有 40ms 纯淡入、模型下拉没有入场动画，这里补在菜单面板本身上。
+- 「值变了」靠 `MutationObserver` 监听按钮里的文字：只认真的换成一个非空值，关闭菜单时的清空不算。
 - 系统开了「减少动态效果」（`prefers-reduced-motion: reduce`）时整套关闭，不是调慢。
 
 ## 为什么不会顶掉布局
 
-动画只驱动 `translate` / `scale` 这两个独立变换属性，不碰 `transform`。弹窗靠 `transform` 居中、靠 `transform` 拖拽定位，都不受影响。
+动画只驱动 `translate` / `scale` 这两个独立变换属性，不碰 `transform`。弹窗靠 `transform` 居中、靠 `transform` 拖拽定位、菜单靠锚点定位，都不受影响。
+
+按钮按住也走 `scale`，不会把下拉锚点带得乱抖；菜单已展开（`aria-expanded="true"`）时按住不缩。
 
 另用 `animation-fill-mode: backwards`：动画结束后不保留任何属性，之后被宿主用 class 隐藏的元素不会被动画的空状态钉住。
 
@@ -52,13 +60,16 @@ plugin_manager install_bundle target=<此仓库的绝对路径>
 - `_mainPanel` 类名后缀（CSS Module 编译产物，前缀哈希会变，后缀稳定）
 - `data-sidebar-right-tab` / `data-dockkit-pane`
 - `role="dialog"` + `aria-modal="true"`
+- `data-menu-material` / `data-menu-backing`
+- `button[aria-haspopup]` / `role="menuitem"` / `role="option"`
 
 哪一天宿主改名了，表现是「这块动画消失」，页面照常工作，不会白屏也不会报错。
+观察器匹配不到按钮时也只是不动。
 
 ## 结构
 
 ```
-client.js          # Client 半边：往 shell.overlay 槽里注册一个隐藏的 <style>
+client.js          # Client 半边：往 shell.overlay 槽里注册一个隐藏的 <style> + 值变化观察器
 index.js           # Host 半边：空的，纯样式插件不需要任何 Host 逻辑
 cordis.patch.yml   # bundle patch：insert 一行
 locale/{en,zh}.json
