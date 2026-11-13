@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="320" viewBox="0 0 640 320" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1b1d21"/>
+      <stop offset="1" stop-color="#121417"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="320" rx="14" fill="url(#bg)"/>
+  <g opacity="0.45">
+    <rect x="40" y="40" width="120" height="240" rx="10" fill="#2a2d33"/>
+    <rect x="176" y="40" width="288" height="240" rx="10" fill="#23262b"/>
+    <rect x="480" y="40" width="120" height="240" rx="10" fill="#2a2d33"/>
+  </g>
+  <g>
+    <rect x="176" y="40" width="288" height="240" rx="10" fill="#247bbf" fill-opacity="0.10" stroke="#247bbf" stroke-width="1.5"/>
+    <rect x="204" y="76" width="180" height="12" rx="6" fill="#247bbf" fill-opacity="0.55"/>
+    <rect x="204" y="104" width="232" height="10" rx="5" fill="#8a8f98" fill-opacity="0.35"/>
+    <rect x="204" y="126" width="200" height="10" rx="5" fill="#8a8f98" fill-opacity="0.25"/>
+    <rect x="204" y="148" width="216" height="10" rx="5" fill="#8a8f98" fill-opacity="0.20"/>
+  </g>
+  <g stroke="#247bbf" stroke-width="2" fill="none" stroke-linecap="round">
+    <path d="M214 226c14-26 30-26 44 0s30 26 44 0"/>
+    <path d="M330 232h56" stroke-dasharray="6 8" opacity="0.7"/>
+  </g>
+  <g fill="#8a8f98" opacity="0.85" font-family="system-ui, sans-serif" font-size="12">
+    <text x="40" y="308">面板切换 · 淡入 + 上浮 6px · 180ms ease-out</text>
+    <text x="436" y="308">prefers-reduced-motion → 关闭</text>
+  </g>
+</svg>
