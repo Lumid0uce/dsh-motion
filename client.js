@@ -325,7 +325,23 @@ button[aria-haspopup]:active:not([aria-expanded="true"]) {
   --dsh-motion-tip-y: 0;
 }
 
-/* ============ 九、无障碍 ============ */
+/* ============ 九、输入字段与标签按钮 ============ */
+
+/* 带图标的小输入框外壳：宿主在 :focus-within 时只把 border-color 换成主色，
+   是硬切。这里补齐过渡，颜色和布局都不动，只是不再「啪」一下。
+   _wrap_ 是 CSS Module 后缀，命中所有同类字段外壳。 */
+[class*="_wrap_"] {
+  transition:
+    border-color 140ms var(--dsh-motion-ease),
+    background-color 140ms var(--dsh-motion-ease);
+}
+
+/* 右侧栏标签上的关闭按钮：宿主 hover / focus 时 opacity 直接 0 → 1，硬跳。 */
+[class*="_tabClose_"] {
+  transition: opacity 120ms var(--dsh-motion-ease);
+}
+
+/* ============ 十、无障碍 ============ */
 
 /* 系统层要求减少动态效果时，整套关掉（不是调慢）。 */
 @media (prefers-reduced-motion: reduce) {
@@ -359,6 +375,8 @@ button[aria-haspopup]:active:not([aria-expanded="true"]) {
   [role="tab"],
   [data-team-task] [class*="_chevron"],
   [class*="_navCell"],
+  [class*="_wrap_"],
+  [class*="_tabClose_"],
   [data-status],
   [data-run-status],
   [data-member-status],

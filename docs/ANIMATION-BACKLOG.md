@@ -50,12 +50,14 @@ dsh-motion 是一个**纯样式插件**：往 `shell.overlay` 槽里塞一个 `<
 | 团队任务展开（箭头旋转 + 详情块入场） | `[data-team-task]` + `[data-expanded]` + `[data-team-task-details]` + `_chevron` 后缀 | 0.6.0 已做 |
 | Tab 切换（文字色 + 下划线撑开） | `[role="tab"][aria-selected="true"]::after` | 0.6.0 已做 |
 | Tooltip 出现（淡入 + 2px 方向位移） | `[role="tooltip"][data-side]`（primitives 的 `_bubble_*` 气泡，`role="tooltip"` + `data-side`/`data-portal`/`data-pinned`） | 0.6.1 已做。宿主 `@keyframes _tooltip-in` 只写了 `opacity:0`，纯淡入；位移用 `translate` 叠加，气泡定位靠的是 `transform` |
+| 输入字段聚焦时的边框过渡 | `[class*="_wrap_"]`（frontend CSS 的 `_wrap_14sgc_1:focus-within{border-color:…}`，宿主硬切） | 0.6.2 已做（只补 transition，不动颜色） |
+| 右侧栏标签的关闭按钮淡入 | `[class*="_tabClose_"]`（`_tabClose_123xe_420`，宿主 hover/focus 直接 opacity 0→1） | 0.6.2 已做 |
 
 ## 四、待验证的候选（下一轮从这里挑）
 
 | 候选 | 需要的钩子 | 预判 |
 | --- | --- | --- |
-| 输入框聚焦时的外发光过渡 | composer 的 textarea 类名（待查，composer 不在 `dsh-client-ui-composer` 包里） | 可能能落地，需先定位类名后缀 |
+| 输入框聚焦时的外发光过渡 | composer 的编辑器根是 Lexical `contenteditable`（钩子只有 `data-composer-chip` / `-command` / `-quote` / `-text-ref` / `-chip-selected`），聚焦外框不在这些包里 | **只做了通用字段外壳**（0.6.2，`_wrap_` 后缀）；composer 本体没有稳定钩子，外发光需要新增视觉，暂不做 |
 | toast/通知出现与消失 | 未在 `@deepseek-ai` 下找到独立包，可能在 primitives 内联 | 待查（`role="status"` 在 30 多个包里都有，但那多是行内状态区，不是浮层 toast，硬选会把静态区块也带上动画） |
 | tooltip 出现（淡入 + 2px 位移） | primitives 内联在 `dsh-web-frontend/dist/assets/index-*.js`（`role:"tooltip"` + `data-side`），CSS 在 `index-*.css` 的 `_bubble_gm1ra_*` | **0.6.1 已做**（见第三节） |
 | tab 指示条滑动 | `role="tablist"` + `[data-active]`（settings-plugins 有 `data-active`） | **部分落地**：指示条是宿主自己画的 `::after`（`left:0;right:0` 绝对定位），不能跨 tab 滑动，只能让选中那条从中间撑开 → 0.6.0 已做 |

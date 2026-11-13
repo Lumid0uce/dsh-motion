@@ -26,6 +26,8 @@
 | 运行状态文字变化（进行中 → 完成/失败） | 颜色渐变 | 140ms |
 | Tab 切换（设置里的插件页等） | 文字色渐变；选中那条 2px 下划线从中间撑开 | 140ms / 180ms |
 | Tooltip 出现 | 淡入 + 从锚点那一侧推出来 2px，方向跟 `data-side` 走 | 150ms |
+| 输入字段聚焦（带图标的小输入框等） | 边框色渐变到主色，宿主原本是硬切 | 140ms |
+| 右侧栏标签的关闭按钮（悬停 / 聚焦时露出） | 透明度渐变 | 120ms |
 | 弹出菜单出现（右键菜单、模型选择、权限选择、子菜单） | 淡入 + 下落 3px + 放大 0.985 → 1 | 150ms |
 | 切换类按钮按住 | 缩到 0.96，松开回弹 | 120ms |
 | 菜单项按住 | 缩到 0.985 | 110ms |
@@ -75,7 +77,8 @@
 `data-action-card`、`data-team-task`、`data-workflow-run`、`data-market-entry`、`data-status`、`data-run-status`、
 `data-expanded`（团队任务展开态）、`data-team-task-details`、`_chevron` 类名后缀、
 `role="tab"` + `aria-selected`（选中态那条 `::after` 下划线是宿主自己画的，这里只让它撑开）、
-`role="tooltip"` + `data-side`（气泡只淡入，这里补 2px 方向位移）。
+`role="tooltip"` + `data-side`（气泡只淡入，这里补 2px 方向位移）、
+`_wrap_`（输入字段外壳）/ `_tabClose_`（右侧栏标签关闭按钮）类名后缀。
 
 哪一天宿主改名了，表现是「这块动画消失」，页面照常工作，不会白屏也不会报错。
 按钮脉冲那部分即使观察器匹配不到任何按钮，也只是不动，不报错。
