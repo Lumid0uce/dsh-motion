@@ -70,6 +70,9 @@ dsh-motion 是一个**纯样式插件**：往 `shell.overlay` 槽里塞一个 `<
 | 流式文本逐字淡入 | 每字都要包元素 | **否决**（性能与实现都不合适） |
 | 侧栏新出现的会话行淡入 | `[data-row-key]`（虚拟化树） | **否决**：展开工作区 / 首次渲染时整片行同时挂上，会是「一片瀑布」而不是「新增一行」，观感比现在差 |
 | 侧栏会话上的日程小标记入场 | `[data-session-schedule-task]` / `[data-session-schedule-mark]` | **否决**：只是侧栏行内 12px 的内联小标记，一晃就是噪音 |
+| 轨迹面板时间线条目入场 | `[data-timeline-span]`（trajectory，包内已有 9 处 transition） | **暂缓**：右侧栏一打开整屏条目同时挂上，逐条淡入像加载动画；宿主本身已有过渡 |
+| 子代理面板分区入场 | `[data-subagent-panel]` / `[data-subagent-section-header]` | **暂缓**：面板本体已被 `[data-dockkit-pane]` 覆盖，内部区头是 12px 级小字，加了只是噪音 |
+| 交付物文件卡片入场 | `[data-review-wrap]` + `_file` 卡（宿主自带 `transition:background-color .12s`） | **暂缓**：宿主已有 hover 过渡，卡片与工具卡片同批出现在聊天流，节奏已由 `[data-action-card]` 承担 |
 
 ## 五、心跳调研协议（每 20 分钟一轮）
 
