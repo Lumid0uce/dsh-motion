@@ -38,7 +38,7 @@
 - 同一面板内换会话**不触发**动画（面板根节点没重挂），所以不会每切一次会话就闪一下。
 - 宿主自己的菜单只有 40ms 纯淡入、模型下拉没有入场动画，这里补在菜单面板本身上。
 - 「值变了」靠 `MutationObserver` 监听按钮里的文字：只认真的换成一个非空值，关闭菜单时的清空不算。
-- 系统开了「减少动态效果」（`prefers-reduced-motion: reduce`）时整套关闭，不是调慢；关闭规则与上表的 21 条动画、9 条过渡逐条对齐（含选择器权重，弹窗那条带 `:not([data-shortcut-modal="sidebar"])` 也原样写进关闭组，否则高权重会压过 `animation:none`）。
+- 系统开了「减少动态效果」（`prefers-reduced-motion: reduce`）时整套关闭，不是调慢；关闭规则与上表的 22 条动画、9 条过渡逐条对齐（含选择器权重，弹窗那条带 `:not([data-shortcut-modal="sidebar"])` 也原样写进关闭组，否则高权重会压过 `animation:none`）。
 
 ## 为什么不会顶掉布局
 
@@ -90,6 +90,7 @@ plugin_manager install_bundle target=<此仓库的绝对路径>
 - `role="tab"` + `aria-selected`（选中态那条 `::after` 下划线是宿主自己画的，这里只让它撑开）
 - `role="tooltip"` + `data-side`（宿主的气泡只淡入，这里补 2px 方向位移）
 - `_wrap_`（输入字段外壳）/ `_tabClose_`（右侧栏标签关闭按钮）类名后缀
+- `span[data-composer-quote]` / `span[data-composer-chip]`（Lexical 节点 createDOM 现造的引用块与 @文件 chip）
 
 哪一天宿主改名了，表现是「这块动画消失」，页面照常工作，不会白屏也不会报错。
 观察器匹配不到按钮时也只是不动。

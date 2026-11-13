@@ -366,6 +366,14 @@ button[aria-haspopup]:active:not([aria-expanded="true"]) {
   transition: opacity 120ms var(--dsh-motion-ease);
 }
 
+/* 输入框里的引用块和 @文件 chip：都是 Lexical 节点的 createDOM 现造 span，
+   插进来的那一刻就是想让人看见的那一刻，宿主自己没有入场。 */
+span[data-composer-quote],
+span[data-composer-chip] {
+  --dsh-motion-shift: 2px;
+  animation: dsh-motion-rise 120ms var(--dsh-motion-ease) backwards;
+}
+
 /* ============ 十、无障碍 ============ */
 
 /* 系统层要求减少动态效果时，整套关掉（不是调慢）。 */
@@ -376,6 +384,8 @@ button[aria-haspopup]:active:not([aria-expanded="true"]) {
   [role="dialog"][aria-modal="true"]:not([data-shortcut-modal="sidebar"]),
   [aria-hidden="true"][class*="_mask"],
   [data-shortcut-modal="settings"] [class*="_options"] > *,
+  span[data-composer-quote],
+  span[data-composer-chip],
   [data-approval-key],
   [data-approval-key] [class*="_card"],
   [data-goal-bar],

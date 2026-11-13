@@ -55,6 +55,8 @@ dsh-motion 是一个**纯样式插件**：往 `shell.overlay` 槽里塞一个 `<
 | 提问卡片入场 | `div[data-question-key]`（`QuestionComposer` 的 frame）+ `div[data-option-row]` | 0.6.3 已做（卡片 200ms 上浮 8px，选项错开 30ms）；宿主自身只有滚动驱动的裁剪 keyframes，没有入场动画 |
 | 插件市场详情页入场 | `div[data-market-detail]`（`DiscoverSection.detail`） | 0.6.4 已做（列表↔详情是硬换的，补 4px 落位）；市场包自带的动画只有骨架屏 `m2i3Fa_dsh-market-skeleton` |
 | 右侧栏标签的关闭按钮淡入 | `[class*="_tabClose_"]`（`_tabClose_123xe_420`，宿主 hover/focus 直接 opacity 0→1） | 0.6.2 已做 |
+| 输入框里插入引用块 / @文件 chip | `span[data-composer-quote]` / `span[data-composer-chip]`（Lexical 节点 `createDOM` 现造的 span，`updateDOM(){return false}`） | 0.6.7 已做（淡入 + 2px，插入那一刻播一次；`data-composer-text-ref` 这类边走边匹配的不加，会闪） |
+| 减少动态模式与规则的权重对齐 | 关闭组必须与动画/过渡规则逐条同权重 | 0.6.6 已修：弹窗那条关闭组少了 `:not(...)`，权重低于动画规则，导致 reduced-motion 下仍会播 |
 
 ## 四、待验证的候选（下一轮从这里挑）
 
