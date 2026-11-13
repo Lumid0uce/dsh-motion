@@ -373,7 +373,7 @@ button[aria-haspopup]:active:not([aria-expanded="true"]) {
   [class*="_mainPanel"] > *,
   [data-sidebar-right-tab],
   [data-dockkit-pane],
-  [role="dialog"][aria-modal="true"],
+  [role="dialog"][aria-modal="true"]:not([data-shortcut-modal="sidebar"]),
   [aria-hidden="true"][class*="_mask"],
   [data-shortcut-modal="settings"] [class*="_options"] > *,
   [data-approval-key],
