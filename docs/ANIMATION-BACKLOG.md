@@ -73,6 +73,7 @@ dsh-motion 是一个**纯样式插件**：往 `shell.overlay` 槽里塞一个 `<
 | 轨迹面板时间线条目入场 | `[data-timeline-span]`（trajectory，包内已有 9 处 transition） | **暂缓**：右侧栏一打开整屏条目同时挂上，逐条淡入像加载动画；宿主本身已有过渡 |
 | 子代理面板分区入场 | `[data-subagent-panel]` / `[data-subagent-section-header]` | **暂缓**：面板本体已被 `[data-dockkit-pane]` 覆盖，内部区头是 12px 级小字，加了只是噪音 |
 | 交付物文件卡片入场 | `[data-review-wrap]` + `_file` 卡（宿主自带 `transition:background-color .12s`） | **暂缓**：宿主已有 hover 过渡，卡片与工具卡片同批出现在聊天流，节奏已由 `[data-action-card]` 承担 |
+| 插件管理器「新增源」单选行 | `label[data-checked]` / `div[data-checked]`（`_registryOption`） | **否决**：宿主没有 `[data-checked]` 的样式规则，选中态是原生 radio 圆点画的，想过渡就得先给它造一个底色——那是改视觉不是加动画 |
 
 ## 五、心跳调研协议（每 20 分钟一轮）
 
@@ -86,3 +87,11 @@ dsh-motion 是一个**纯样式插件**：往 `shell.overlay` 槽里塞一个 `<
    本地 `git commit`（**不 push**，push 前必须问用户）。
 5. **记**：新来源写进第二节，新钩子写进第三节/第四节，否决理由写清楚，避免下一轮重复挖。
 6. **报**：正文只回一行结论（加了什么 / 否决了什么），不刷屏。
+
+## 六、技术备注
+
+- **`@starting-style` + `transition-behavior: allow-discrete`**：出/入场都能纯 CSS 做，不需要 keyframes。
+  本插件目前一律走 `@keyframes ... backwards`（结束值即元素自身样式，最稳）。
+  `@starting-style` 留作以后处理「`display:none` ↔ `block` 切换、且过渡不该有起始帧副作用」的备选。
+- **禁用 `transform`**：宿主大量元素自己用 `transform` 做定位/居中/拖拽/翻转，
+  所以本插件只碰 `translate` / `scale` / `rotate` 这些独立变换属性，以及 `opacity` / 颜色 / `box-shadow`。
