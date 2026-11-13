@@ -129,7 +129,33 @@ const CSS = String.raw`
   animation: dsh-motion-rise 160ms var(--dsh-motion-ease) backwards;
 }
 
-/* ============ 三、弹出菜单 ============ */
+/* ============ 三、任务状态面 ============ */
+
+/* 审批卡片：等权限确认的那一块。整个 UI 里最该被注意到的卡片，反而一点动效都没，
+   所以位移比别处大一号（跟随卡片自己的局部变量，不影响全局）。 */
+[data-approval-key] {
+  --dsh-motion-shift: 8px;
+  animation: dsh-motion-rise 200ms var(--dsh-motion-ease) backwards;
+}
+
+/* 目标条：目标建立/恢复时这个 dock 才挂上，否则 render null，所以进入动画刚好只在出现时播。 */
+[data-goal-bar] {
+  animation: dsh-motion-rise var(--dsh-motion-duration) var(--dsh-motion-ease) backwards;
+}
+
+/* 计划卡片：一次列出来时逐张错开 40ms，能看出「是一张张列出来的」。
+   只给前 6 张写延迟，再多统一 200ms，避免长列表尾部等太久。 */
+[data-plan-artifacts] > [data-plan-card] {
+  animation: dsh-motion-rise 200ms var(--dsh-motion-ease) backwards;
+}
+[data-plan-artifacts] > [data-plan-card]:nth-child(2) { animation-delay: 40ms; }
+[data-plan-artifacts] > [data-plan-card]:nth-child(3) { animation-delay: 80ms; }
+[data-plan-artifacts] > [data-plan-card]:nth-child(4) { animation-delay: 120ms; }
+[data-plan-artifacts] > [data-plan-card]:nth-child(5) { animation-delay: 160ms; }
+[data-plan-artifacts] > [data-plan-card]:nth-child(6) { animation-delay: 200ms; }
+[data-plan-artifacts] > [data-plan-card]:nth-child(n+7) { animation-delay: 200ms; }
+
+/* ============ 四、弹出菜单 ============ */
 
 /* 宿主自己的菜单出场只有 40ms 纯透明度（context menu 走 --dsh-menu-enter），
    模型下拉干脆没有入场动画。这里在菜单面板本身上补一层动作，一次覆盖：
@@ -141,7 +167,7 @@ const CSS = String.raw`
   animation: dsh-motion-drop 150ms var(--dsh-motion-ease) backwards;
 }
 
-/* ============ 四、控件反馈 ============ */
+/* ============ 五、控件反馈 ============ */
 
 /* 按住时的内缩。aria-haspopup 精确圈住「点开菜单」这类按钮：
    模型切换、思考强度、权限档位、各种 … 菜单按钮。
@@ -168,7 +194,7 @@ button[aria-haspopup]:active:not([aria-expanded="true"]) {
   animation: dsh-motion-bump 240ms var(--dsh-motion-ease);
 }
 
-/* ============ 五、无障碍 ============ */
+/* ============ 六、无障碍 ============ */
 
 /* 系统层要求减少动态效果时，整套关掉（不是调慢）。 */
 @media (prefers-reduced-motion: reduce) {
@@ -178,6 +204,9 @@ button[aria-haspopup]:active:not([aria-expanded="true"]) {
   [role="dialog"][aria-modal="true"],
   [aria-hidden="true"][class*="_mask"],
   [data-shortcut-modal="settings"] [class*="_options"] > *,
+  [data-approval-key],
+  [data-goal-bar],
+  [data-plan-artifacts] > [data-plan-card],
   [data-menu-material],
   [data-menu-backing],
   [data-dsh-motion-pop] {
