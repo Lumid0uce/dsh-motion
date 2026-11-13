@@ -19,8 +19,10 @@
 | 目录选择器多列浏览（进入下一层） | 新一列淡入 + 上浮 4px | 140ms |
 | 工具卡片插入聊天流 | 淡入 + 上浮 3px（比别处更轻，调用频繁时也不吵） | 120ms |
 | Agent 团队任务行 / 工作流运行面板出现 | 淡入 + 上浮 6px | 180ms |
+| Agent 团队任务展开 | 箭头旋转渐变；展开出来的详情块淡入 + 上浮 2px | 160ms / 140ms |
 | 插件市场卡片铺开 | 逐张淡入 + 上浮，每张错开 40ms | 180ms |
 | 运行状态文字变化（进行中 → 完成/失败） | 颜色渐变 | 140ms |
+| Tab 切换（设置里的插件页等） | 文字色渐变；选中那条 2px 下划线从中间撑开 | 140ms / 180ms |
 | 弹出菜单出现（右键菜单、模型选择、权限选择、子菜单） | 淡入 + 下落 3px + 放大 0.985 → 1 | 150ms |
 | 切换类按钮按住（模型、思考强度、权限档位、各种 … 菜单） | 缩到 0.96，松开回弹 | 120ms |
 | 菜单项按住 | 缩到 0.985 | 110ms |
@@ -77,6 +79,8 @@ plugin_manager install_bundle target=<此仓库的绝对路径>
 - `data-approval-key` / `data-goal-bar` / `data-plan-artifacts` + `data-plan-card`
 - `data-row-key`（侧栏会话行 / 工作区行）/ `data-files-row` / `[role="list"]` + `_column` 类名后缀
 - `data-action-card` / `data-team-task` / `data-workflow-run` / `data-market-entry` / `data-status` / `data-run-status`
+- `data-expanded`（团队任务展开态）/ `data-team-task-details` / `_chevron` 类名后缀
+- `role="tab"` + `aria-selected`（选中态那条 `::after` 下划线是宿主自己画的，这里只让它撑开）
 
 哪一天宿主改名了，表现是「这块动画消失」，页面照常工作，不会白屏也不会报错。
 观察器匹配不到按钮时也只是不动。

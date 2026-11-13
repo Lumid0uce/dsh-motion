@@ -89,6 +89,14 @@ const CSS = String.raw`
   100% { scale: 1; }
 }
 
+/* tab 下划线撑开：从中心向两侧展开，同时把透明度带上来。 */
+@keyframes dsh-motion-underline {
+  from {
+    opacity: 0;
+    scale: 0 1;
+  }
+}
+
 /* 一次性呼吸：只播一次、不循环。给审批卡片用。
    不用 color-mix 之类的颜色函数，只把外发光扩散开的同时退成 transparent，
    色值只来自宿主 token + transparent，不会因为颜色语法不支持而整条规则失效。 */
@@ -214,6 +222,17 @@ const CSS = String.raw`
 [data-market-entry]:nth-child(5) { animation-delay: 160ms; }
 [data-market-entry]:nth-child(n+6) { animation-delay: 160ms; }
 
+/* 团队任务行展开：宿主的箭头是硬切旋转（[data-expanded=true] 下直接给
+   rotate(180deg)，没有 transition），补一段就好；展开后新挂上的详情块
+   （data-team-task-details）自己也浮一下，位移只 2px，别把行高带出跳动感。 */
+[data-team-task] [class*="_chevron"] {
+  transition: transform 160ms var(--dsh-motion-ease);
+}
+[data-team-task-details] {
+  --dsh-motion-shift: 2px;
+  animation: dsh-motion-rise 140ms var(--dsh-motion-ease) backwards;
+}
+
 /* 运行状态文字（进行中/完成/失败）宿主是硬切的，补颜色过渡。 */
 [data-status],
 [data-run-status],
@@ -260,7 +279,19 @@ button[aria-haspopup]:active:not([aria-expanded="true"]) {
   animation: dsh-motion-bump 240ms var(--dsh-motion-ease);
 }
 
-/* ============ 七、无障碍 ============ */
+/* ============ 七、Tab 与分段控件 ============ */
+
+/* tab 的文字色宿主也是硬切；选中态还靠 ::after 画一条 2px 下划线（底板是
+   position:absolute + left/right:0，所以可以从中间 scaleX 撑开）。
+   只动自己那条下划线，别的 ::after 不受影响：没这层伪元素的 tab 等于没规则。 */
+[role="tab"] {
+  transition: color 140ms var(--dsh-motion-ease);
+}
+[role="tab"][aria-selected="true"]::after {
+  animation: dsh-motion-underline 180ms var(--dsh-motion-ease) backwards;
+}
+
+/* ============ 八、无障碍 ============ */
 
 /* 系统层要求减少动态效果时，整套关掉（不是调慢）。 */
 @media (prefers-reduced-motion: reduce) {
@@ -280,6 +311,8 @@ button[aria-haspopup]:active:not([aria-expanded="true"]) {
   [data-team-task],
   [data-workflow-run],
   [data-market-entry],
+  [data-team-task-details],
+  [role="tab"][aria-selected="true"]::after,
   [data-menu-material],
   [data-menu-backing],
   [data-dsh-motion-pop] {
@@ -288,6 +321,8 @@ button[aria-haspopup]:active:not([aria-expanded="true"]) {
   button[aria-haspopup],
   [role="menuitem"],
   [role="option"],
+  [role="tab"],
+  [data-team-task] [class*="_chevron"],
   [class*="_navCell"],
   [data-status],
   [data-run-status],

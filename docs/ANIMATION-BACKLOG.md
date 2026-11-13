@@ -47,6 +47,8 @@ dsh-motion 是一个**纯样式插件**：往 `shell.overlay` 槽里塞一个 `<
 | 工具卡片 | `[data-action-card]` | 0.5.0 已做 |
 | Agent 团队任务行 / 工作流运行面板 / 插件市场卡片 | `[data-team-task]`、`[data-workflow-run]`、`[data-market-entry]` | 0.5.0 已做 |
 | 运行状态文字（进行中/完成/失败） | `[data-status]`、`[data-run-status]`、`[data-member-status]` | 0.5.0 已做（颜色过渡） |
+| 团队任务展开（箭头旋转 + 详情块入场） | `[data-team-task]` + `[data-expanded]` + `[data-team-task-details]` + `_chevron` 后缀 | 0.6.0 已做 |
+| Tab 切换（文字色 + 下划线撑开） | `[role="tab"][aria-selected="true"]::after` | 0.6.0 已做 |
 
 ## 四、待验证的候选（下一轮从这里挑）
 
@@ -55,9 +57,9 @@ dsh-motion 是一个**纯样式插件**：往 `shell.overlay` 槽里塞一个 `<
 | 输入框聚焦时的外发光过渡 | composer 的 textarea 类名（待查，composer 不在 `dsh-client-ui-composer` 包里） | 可能能落地，需先定位类名后缀 |
 | toast/通知出现与消失 | 未在 `@deepseek-ai` 下找到独立包，可能在 primitives 内联 | 待查 |
 | tooltip 出现（淡入 + 2px 位移） | 同上级，可能在 primitives 内联 | 待查 |
-| tab 指示条滑动 | `role="tablist"` + `[data-active]`（settings-plugins 有 `data-active`） | 指示条如果是独立元素才能动 |
-| 侧栏拖拽调宽时的把手高亮 | `data-dragging`（AppFrame 已有） | 低成本，值得做 |
-| 折叠/展开容器的高度动画 | 需要 `calc-size`/`interpolate-size`（Chrome 129+ 支持 `interpolate-size: allow-keywords`） | 值得试：`data-expanded`（agent-team 有） |
+| tab 指示条滑动 | `role="tablist"` + `[data-active]`（settings-plugins 有 `data-active`） | **部分落地**：指示条是宿主自己画的 `::after`（`left:0;right:0` 绝对定位），不能跨 tab 滑动，只能让选中那条从中间撑开 → 0.6.0 已做 |
+| 侧栏拖拽调宽时的把手高亮 | `data-dragging`（AppFrame 的 `.mP3x-q_handle` 上有，8px 宽、`cursor:col-resize`） | **暂缓**：把手没有底色，要动只能自己画一条 2px 线，属于新增视觉而非动画，等用户明确要再说 |
+| 折叠/展开容器的高度动画 | 需要 `calc-size`/`interpolate-size`（Chrome 129+ 支持 `interpolate-size: allow-keywords`） | 值得试：`data-expanded`（agent-team 有）。0.6.0 先只做了展开内容的淡入上浮，没动高度 |
 | 列表删除时的退出动画 | 宿主卸载即消失，无钩子 | **否决**（除非宿主配合） |
 | 流式文本逐字淡入 | 每字都要包元素 | **否决**（性能与实现都不合适） |
 
@@ -68,7 +70,7 @@ dsh-motion 是一个**纯样式插件**：往 `shell.overlay` 槽里塞一个 `<
    `tailwind animation`、`skeleton shimmer`、`hover effect css`。每轮最多 3 个请求（未登录 60 次/小时限额）。
 2. **筛**：只留「纯 CSS 能抄的做法」，JS 库一律记为「不能落地」。
 3. **验**：要落地的东西，先在本机 ASAR 构建产物里确认钩子真实存在（`ELECTRON_RUN_AS_NODE=1` + fs 脚本），
-   不能靠猜类名。
+   不能靠猜类名。注意 `lib/client.js` 是**单行压缩产物**，按行 grep 没用，要 `indexOf` 取上下文切片再看。
 4. **落**：实现 → 同步 `package.json` 版本 / `README.md` / `docs/DETAIL.md` → `node --check client.js` →
    本地 `git commit`（**不 push**，push 前必须问用户）。
 5. **记**：新来源写进第二节，新钩子写进第三节/第四节，否决理由写清楚，避免下一轮重复挖。
