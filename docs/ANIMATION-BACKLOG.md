@@ -120,3 +120,6 @@ dsh-motion 是一个**纯样式插件**：往 `shell.overlay` 槽里塞一个 `<
 - `jobs`、`plan`、`schedule`、`skill`、`tool`、`trajectory`、`subagent`、`deliverables`、`settings-account`、`settings-general` 等自带 1–10 处动效的包：宿主已经做过了，本插件只在旁边补「宿主完全没有」的那一层，不叠加第二套
 
 > 结论：可见界面里「该有动画却没有」的位置已经处理完，后续心跳以「发现宿主版本变化 / 新包」为主，不再为凑数找动画。
+
+> **宿主基线（2026-11-14 07:40 记录）**：DSH core `0.2.2-rc.3`，`@deepseek-ai` 下共 338 个包，其中 `dsh-client-ui-*` 62 个。
+> 以后心跳先比对这两个数字和 core 版本：变了就说明宿主升级过，要重新过一遍第七节的三类清单（新包 = 可能的新钩子）。
