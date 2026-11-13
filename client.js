@@ -312,9 +312,13 @@ button[aria-haspopup]:active:not([aria-expanded="true"]) {
 
 /* tab 的文字色宿主也是硬切；选中态还靠 ::after 画一条 2px 下划线（底板是
    position:absolute + left/right:0，所以可以从中间 scaleX 撑开）。
-   只动自己那条下划线，别的 ::after 不受影响：没这层伪元素的 tab 等于没规则。 */
+   只动自己那条下划线，别的 ::after 不受影响：没这层伪元素的 tab 等于没规则。
+   底色一起过渡：右侧栏那些 dockkit 标签（div[role="tab"][data-dockkit-tab]）
+   切换时是整块背景直接换，不淡一下就挺跳的。 */
 [role="tab"] {
-  transition: color 140ms var(--dsh-motion-ease);
+  transition:
+    color 140ms var(--dsh-motion-ease),
+    background-color 140ms var(--dsh-motion-ease);
 }
 [role="tab"][aria-selected="true"]::after {
   animation: dsh-motion-underline 180ms var(--dsh-motion-ease) backwards;

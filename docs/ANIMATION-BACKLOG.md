@@ -49,6 +49,7 @@ dsh-motion 是一个**纯样式插件**：往 `shell.overlay` 槽里塞一个 `<
 | 运行状态文字（进行中/完成/失败） | `[data-status]`、`[data-run-status]`、`[data-member-status]` | 0.5.0 已做（颜色过渡） |
 | 团队任务展开（箭头旋转 + 详情块入场） | `[data-team-task]` + `[data-expanded]` + `[data-team-task-details]` + `_chevron` 后缀 | 0.6.0 已做 |
 | Tab 切换（文字色 + 下划线撑开） | `[role="tab"][aria-selected="true"]::after` | 0.6.0 已做 |
+| 右侧栏 dockkit 标签底色切换 | `div[role="tab"][data-dockkit-tab]`（`data-dockkit-tab` / `-quiet` / `-pane` 都在 frontend bundle 里渲染） | 0.6.5 已做（底色并入 `[role="tab"]` 的 140ms 过渡） |
 | Tooltip 出现（淡入 + 2px 方向位移） | `[role="tooltip"][data-side]`（primitives 的 `_bubble_*` 气泡，`role="tooltip"` + `data-side`/`data-portal`/`data-pinned`） | 0.6.1 已做。宿主 `@keyframes _tooltip-in` 只写了 `opacity:0`，纯淡入；位移用 `translate` 叠加，气泡定位靠的是 `transform` |
 | 输入字段聚焦时的边框过渡 | `[class*="_wrap_"]`（frontend CSS 的 `_wrap_14sgc_1:focus-within{border-color:…}`，宿主硬切） | 0.6.2 已做（只补 transition，不动颜色） |
 | 提问卡片入场 | `div[data-question-key]`（`QuestionComposer` 的 frame）+ `div[data-option-row]` | 0.6.3 已做（卡片 200ms 上浮 8px，选项错开 30ms）；宿主自身只有滚动驱动的裁剪 keyframes，没有入场动画 |
@@ -67,6 +68,8 @@ dsh-motion 是一个**纯样式插件**：往 `shell.overlay` 槽里塞一个 `<
 | 折叠/展开容器的高度动画 | 需要 `calc-size`/`interpolate-size`（Chrome 129+ 支持 `interpolate-size: allow-keywords`） | 值得试：`data-expanded`（agent-team 有）。0.6.0 先只做了展开内容的淡入上浮，没动高度 |
 | 列表删除时的退出动画 | 宿主卸载即消失，无钩子 | **否决**（除非宿主配合） |
 | 流式文本逐字淡入 | 每字都要包元素 | **否决**（性能与实现都不合适） |
+| 侧栏新出现的会话行淡入 | `[data-row-key]`（虚拟化树） | **否决**：展开工作区 / 首次渲染时整片行同时挂上，会是「一片瀑布」而不是「新增一行」，观感比现在差 |
+| 侧栏会话上的日程小标记入场 | `[data-session-schedule-task]` / `[data-session-schedule-mark]` | **否决**：只是侧栏行内 12px 的内联小标记，一晃就是噪音 |
 
 ## 五、心跳调研协议（每 20 分钟一轮）
 
