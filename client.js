@@ -162,7 +162,7 @@ const CSS = String.raw`
   animation: dsh-motion-rise 140ms var(--dsh-motion-ease) backwards;
 }
 
-/* ============ 四、任务状态面 ============ */
+/* ============ 四、任务状态面与运行面板 ============ */
 
 /* 审批卡片：等权限确认的那一块。整个 UI 里最该被注意到的卡片，反而一点动效都没，
    所以位移比别处大一号（跟随卡片自己的局部变量，不影响全局）。 */
@@ -192,6 +192,34 @@ const CSS = String.raw`
 [data-plan-artifacts] > [data-plan-card]:nth-child(5) { animation-delay: 160ms; }
 [data-plan-artifacts] > [data-plan-card]:nth-child(6) { animation-delay: 200ms; }
 [data-plan-artifacts] > [data-plan-card]:nth-child(n+7) { animation-delay: 200ms; }
+
+/* 工具卡片：每次调用插一张到流里，所以比任务状态更轻（3px / 120ms），
+   频繁插入时是“轻轻落位”而不是一卡一顿。 */
+[data-action-card] {
+  --dsh-motion-shift: 3px;
+  animation: dsh-motion-rise 120ms var(--dsh-motion-ease) backwards;
+}
+
+/* Agent 团队任务行、工作流运行面板、插件市场卡片：整块出现时上浮。 */
+[data-team-task],
+[data-workflow-run],
+[data-market-entry] {
+  animation: dsh-motion-rise 180ms var(--dsh-motion-ease) backwards;
+}
+
+/* 市场是网格，一次铺一片，逐张错开 40ms（跟计划卡片一样，第 7 张以后封顶）。 */
+[data-market-entry]:nth-child(2) { animation-delay: 40ms; }
+[data-market-entry]:nth-child(3) { animation-delay: 80ms; }
+[data-market-entry]:nth-child(4) { animation-delay: 120ms; }
+[data-market-entry]:nth-child(5) { animation-delay: 160ms; }
+[data-market-entry]:nth-child(n+6) { animation-delay: 160ms; }
+
+/* 运行状态文字（进行中/完成/失败）宿主是硬切的，补颜色过渡。 */
+[data-status],
+[data-run-status],
+[data-member-status] {
+  transition: color 140ms var(--dsh-motion-ease), background-color 140ms var(--dsh-motion-ease);
+}
 
 /* ============ 五、弹出菜单 ============ */
 
@@ -248,6 +276,10 @@ button[aria-haspopup]:active:not([aria-expanded="true"]) {
   [data-plan-artifacts] > [data-plan-card],
   [data-files-row],
   [role="list"][class*="_column"],
+  [data-action-card],
+  [data-team-task],
+  [data-workflow-run],
+  [data-market-entry],
   [data-menu-material],
   [data-menu-backing],
   [data-dsh-motion-pop] {
@@ -257,6 +289,9 @@ button[aria-haspopup]:active:not([aria-expanded="true"]) {
   [role="menuitem"],
   [role="option"],
   [class*="_navCell"],
+  [data-status],
+  [data-run-status],
+  [data-member-status],
   [data-row-key] {
     transition: none;
     scale: 1;
