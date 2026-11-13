@@ -14,6 +14,7 @@
 | 审批卡片（等权限确认）出现 | 淡入 + 上浮 8px，落地后一圈一次性外发光（只播一次，不循环） | 200ms + 700ms |
 | 目标条出现 | 淡入 + 上浮 6px | 180ms |
 | 计划卡片列出 | 逐张淡入 + 上浮，每张错开 40ms | 200ms |
+| 提问卡片出现（agent 反问时输入框上方那块） | 卡片淡入 + 上浮 8px；选项逐条错开 30ms | 200ms / 160ms |
 | 左侧栏的会话行 / 工作区行 / 文件树行（悬停、选中） | 底色与文字色渐变（宿主原本是硬切） | 140ms |
 | 文件树展开新目录 | 新出现的行淡入 + 上浮 3px | 120ms |
 | 目录选择器多列浏览（进入下一层） | 新一列淡入 + 上浮 4px | 140ms |
@@ -82,6 +83,7 @@ plugin_manager install_bundle target=<此仓库的绝对路径>
 - `data-approval-key` / `data-goal-bar` / `data-plan-artifacts` + `data-plan-card`
 - `data-row-key`（侧栏会话行 / 工作区行）/ `data-files-row` / `[role="list"]` + `_column` 类名后缀
 - `data-action-card` / `data-team-task` / `data-workflow-run` / `data-market-entry` / `data-status` / `data-run-status`
+- `data-question-key` + `data-option-row`（提问卡片）
 - `data-expanded`（团队任务展开态）/ `data-team-task-details` / `_chevron` 类名后缀
 - `role="tab"` + `aria-selected`（选中态那条 `::after` 下划线是宿主自己画的，这里只让它撑开）
 - `role="tooltip"` + `data-side`（宿主的气泡只淡入，这里补 2px 方向位移）

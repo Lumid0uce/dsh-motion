@@ -209,6 +209,21 @@ const CSS = String.raw`
 [data-plan-artifacts] > [data-plan-card]:nth-child(6) { animation-delay: 200ms; }
 [data-plan-artifacts] > [data-plan-card]:nth-child(n+7) { animation-delay: 200ms; }
 
+/* 提问卡片（agent 反问时从输入框上方长出来的那块）：宿主是直接挂上，没有入场。
+   frame 本身做上浮，里面的选项逐条错开 30ms——这个卡出现就意味着要你动手，
+   比工具卡片重一档，但不到审批卡片的 8px。 */
+[data-question-key] {
+  --dsh-motion-shift: 8px;
+  animation: dsh-motion-rise 200ms var(--dsh-motion-ease) backwards;
+}
+[data-question-key] [data-option-row] {
+  animation: dsh-motion-rise 160ms var(--dsh-motion-ease) backwards;
+}
+[data-question-key] [data-option-row]:nth-child(2) { animation-delay: 30ms; }
+[data-question-key] [data-option-row]:nth-child(3) { animation-delay: 60ms; }
+[data-question-key] [data-option-row]:nth-child(4) { animation-delay: 90ms; }
+[data-question-key] [data-option-row]:nth-child(n+5) { animation-delay: 120ms; }
+
 /* 工具卡片：每次调用插一张到流里，所以比任务状态更轻（3px / 120ms），
    频繁插入时是“轻轻落位”而不是一卡一顿。 */
 [data-action-card] {
@@ -355,6 +370,8 @@ button[aria-haspopup]:active:not([aria-expanded="true"]) {
   [data-approval-key] [class*="_card"],
   [data-goal-bar],
   [data-plan-artifacts] > [data-plan-card],
+  [data-question-key],
+  [data-question-key] [data-option-row],
   [data-files-row],
   [role="list"][class*="_column"],
   [data-action-card],
