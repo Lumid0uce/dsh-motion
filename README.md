@@ -22,6 +22,7 @@
 | Agent 团队任务行 / 工作流运行面板出现 | 淡入 + 上浮 6px | 180ms |
 | Agent 团队任务展开 | 箭头旋转渐变；展开出来的详情块淡入 + 上浮 2px | 160ms / 140ms |
 | 插件市场卡片铺开 | 逐张淡入 + 上浮，每张错开 40ms | 180ms |
+| 插件市场从列表点进详情 | 详情块淡入 + 上浮 4px（返回时列表会再铺一次） | 200ms |
 | 运行状态文字变化（进行中 → 完成/失败） | 颜色渐变 | 140ms |
 | Tab 切换（设置里的插件页等） | 文字色渐变；选中那条 2px 下划线从中间撑开 | 140ms / 180ms |
 | Tooltip 出现 | 淡入 + 从锚点那一侧推出来 2px（方向跟 `data-side` 走） | 150ms |
@@ -84,6 +85,7 @@ plugin_manager install_bundle target=<此仓库的绝对路径>
 - `data-row-key`（侧栏会话行 / 工作区行）/ `data-files-row` / `[role="list"]` + `_column` 类名后缀
 - `data-action-card` / `data-team-task` / `data-workflow-run` / `data-market-entry` / `data-status` / `data-run-status`
 - `data-question-key` + `data-option-row`（提问卡片）
+- `data-market-detail`（插件市场详情页）
 - `data-expanded`（团队任务展开态）/ `data-team-task-details` / `_chevron` 类名后缀
 - `role="tab"` + `aria-selected`（选中态那条 `::after` 下划线是宿主自己画的，这里只让它撑开）
 - `role="tooltip"` + `data-side`（宿主的气泡只淡入，这里补 2px 方向位移）

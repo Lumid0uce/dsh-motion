@@ -245,6 +245,12 @@ const CSS = String.raw`
 [data-market-entry]:nth-child(5) { animation-delay: 160ms; }
 [data-market-entry]:nth-child(n+6) { animation-delay: 160ms; }
 
+/* 插件市场从列表点进详情：整块内容是硬换的，给个 4px 落位，回来时列表还会再铺一次。 */
+[data-market-detail] {
+  --dsh-motion-shift: 4px;
+  animation: dsh-motion-rise 200ms var(--dsh-motion-ease) backwards;
+}
+
 /* 团队任务行展开：宿主的箭头是硬切旋转（[data-expanded=true] 下直接给
    rotate(180deg)，没有 transition），补一段就好；展开后新挂上的详情块
    （data-team-task-details）自己也浮一下，位移只 2px，别把行高带出跳动感。 */
@@ -378,6 +384,7 @@ button[aria-haspopup]:active:not([aria-expanded="true"]) {
   [data-team-task],
   [data-workflow-run],
   [data-market-entry],
+  [data-market-detail],
   [data-team-task-details],
   [role="tab"][aria-selected="true"]::after,
   [role="tooltip"][data-side],

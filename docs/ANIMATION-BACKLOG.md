@@ -52,6 +52,7 @@ dsh-motion 是一个**纯样式插件**：往 `shell.overlay` 槽里塞一个 `<
 | Tooltip 出现（淡入 + 2px 方向位移） | `[role="tooltip"][data-side]`（primitives 的 `_bubble_*` 气泡，`role="tooltip"` + `data-side`/`data-portal`/`data-pinned`） | 0.6.1 已做。宿主 `@keyframes _tooltip-in` 只写了 `opacity:0`，纯淡入；位移用 `translate` 叠加，气泡定位靠的是 `transform` |
 | 输入字段聚焦时的边框过渡 | `[class*="_wrap_"]`（frontend CSS 的 `_wrap_14sgc_1:focus-within{border-color:…}`，宿主硬切） | 0.6.2 已做（只补 transition，不动颜色） |
 | 提问卡片入场 | `div[data-question-key]`（`QuestionComposer` 的 frame）+ `div[data-option-row]` | 0.6.3 已做（卡片 200ms 上浮 8px，选项错开 30ms）；宿主自身只有滚动驱动的裁剪 keyframes，没有入场动画 |
+| 插件市场详情页入场 | `div[data-market-detail]`（`DiscoverSection.detail`） | 0.6.4 已做（列表↔详情是硬换的，补 4px 落位）；市场包自带的动画只有骨架屏 `m2i3Fa_dsh-market-skeleton` |
 | 右侧栏标签的关闭按钮淡入 | `[class*="_tabClose_"]`（`_tabClose_123xe_420`，宿主 hover/focus 直接 opacity 0→1） | 0.6.2 已做 |
 
 ## 四、待验证的候选（下一轮从这里挑）
