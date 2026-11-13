@@ -9,6 +9,8 @@
 | 主面板切换（会话 ↔ 插件 ↔ 设置…） | 淡入 + 上浮 6px | 180ms |
 | 右侧栏换 tab | 淡入 + 上浮 6px | 180ms |
 | 弹窗 / 设置面板 / 平台页出现 | 淡入 + 放大 0.985 → 1 | 220ms |
+| 弹窗 / 设置背后的遮罩层 | 淡入（不缩放、不位移） | 200ms |
+| 设置面板里换分类 | 内容淡入 + 上浮 4px；左侧分类高亮渐变 | 160ms / 140ms |
 | 弹出菜单出现（右键菜单、模型选择、权限选择、子菜单） | 淡入 + 下落 3px + 放大 0.985 → 1 | 150ms |
 | 切换类按钮按住（模型、思考强度、权限档位、各种 … 菜单） | 缩到 0.96，松开回弹 | 120ms |
 | 菜单项按住 | 缩到 0.985 | 110ms |
@@ -59,7 +61,7 @@ plugin_manager install_bundle target=<此仓库的绝对路径>
 
 - `_mainPanel` 类名后缀（CSS Module 编译产物，前缀哈希会变，后缀稳定）
 - `data-sidebar-right-tab` / `data-dockkit-pane`
-- `role="dialog"` + `aria-modal="true"`
+- `role="dialog"` + `aria-modal="true"`（设置那个 800px 面板上带的就是它，所以命中的是面板而不是遮罩）
 - `data-menu-material` / `data-menu-backing`
 - `button[aria-haspopup]` / `role="menuitem"` / `role="option"`
 

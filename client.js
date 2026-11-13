@@ -66,6 +66,13 @@ const CSS = String.raw`
   }
 }
 
+/* 纯透明度淡入，给遮罩用：遮罩不能缩放也不能位移，否则边缘会露缝。 */
+@keyframes dsh-motion-fade {
+  from {
+    opacity: 0;
+  }
+}
+
 /* 菜单从触发按钮下方展开：向下落一点点，不遮挡判断。 */
 @keyframes dsh-motion-drop {
   from {
@@ -96,12 +103,33 @@ const CSS = String.raw`
   animation: dsh-motion-rise var(--dsh-motion-duration) var(--dsh-motion-ease) backwards;
 }
 
-/* 弹窗 / 设置面板 / 平台页。左侧导航抽屉自带轨道动画，排除掉，别两套动画打架。 */
+/* 弹窗 / 设置面板 / 平台页。左侧导航抽屉自带轨道动画，排除掉，别两套动画打架。
+   （设置那个 800px 面板上带的就是 role=dialog + aria-modal，命中的是面板本身，
+   遮罩是它的兄弟节点，所以下面单独给遮罩一条纯淡入 —— 各播各的，面板不会被拖着缩放。） */
 [role="dialog"][aria-modal="true"]:not([data-shortcut-modal="sidebar"]) {
   animation: dsh-motion-settle var(--dsh-motion-duration-slow) var(--dsh-motion-ease) backwards;
 }
 
-/* ============ 二、弹出菜单 ============ */
+/* 浮层背后的遮罩：宿主直接上屏、没有任何过渡，所以打开设置/任何弹窗时背景都是「啪」一下变暗。 */
+[aria-hidden="true"][class*="_mask"] {
+  animation: dsh-motion-fade 200ms var(--dsh-motion-ease) backwards;
+}
+
+/* ============ 二、设置面板内部 ============ */
+
+/* 左侧分类高亮：宿主是瞬间换底色/文字色，补一段过渡就顺了。 */
+[class*="_navCell"] {
+  transition: background-color 140ms var(--dsh-motion-ease), color 140ms var(--dsh-motion-ease);
+}
+
+/* 右侧内容区：换分类时宿主用 renderSlot('settings.section', …, { only: active })
+   把内容重新挂载，所以进入动画刚好只在真正换分类时播。位移比面板那条小一号。 */
+[data-shortcut-modal="settings"] [class*="_options"] > * {
+  --dsh-motion-shift: 4px;
+  animation: dsh-motion-rise 160ms var(--dsh-motion-ease) backwards;
+}
+
+/* ============ 三、弹出菜单 ============ */
 
 /* 宿主自己的菜单出场只有 40ms 纯透明度（context menu 走 --dsh-menu-enter），
    模型下拉干脆没有入场动画。这里在菜单面板本身上补一层动作，一次覆盖：
@@ -113,7 +141,7 @@ const CSS = String.raw`
   animation: dsh-motion-drop 150ms var(--dsh-motion-ease) backwards;
 }
 
-/* ============ 三、控件反馈 ============ */
+/* ============ 四、控件反馈 ============ */
 
 /* 按住时的内缩。aria-haspopup 精确圈住「点开菜单」这类按钮：
    模型切换、思考强度、权限档位、各种 … 菜单按钮。
@@ -140,7 +168,7 @@ button[aria-haspopup]:active:not([aria-expanded="true"]) {
   animation: dsh-motion-bump 240ms var(--dsh-motion-ease);
 }
 
-/* ============ 四、无障碍 ============ */
+/* ============ 五、无障碍 ============ */
 
 /* 系统层要求减少动态效果时，整套关掉（不是调慢）。 */
 @media (prefers-reduced-motion: reduce) {
@@ -148,6 +176,8 @@ button[aria-haspopup]:active:not([aria-expanded="true"]) {
   [data-sidebar-right-tab],
   [data-dockkit-pane],
   [role="dialog"][aria-modal="true"],
+  [aria-hidden="true"][class*="_mask"],
+  [data-shortcut-modal="settings"] [class*="_options"] > *,
   [data-menu-material],
   [data-menu-backing],
   [data-dsh-motion-pop] {
@@ -155,7 +185,8 @@ button[aria-haspopup]:active:not([aria-expanded="true"]) {
   }
   button[aria-haspopup],
   [role="menuitem"],
-  [role="option"] {
+  [role="option"],
+  [class*="_navCell"] {
     transition: none;
     scale: 1;
   }
