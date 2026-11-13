@@ -97,6 +97,14 @@ const CSS = String.raw`
   }
 }
 
+/* tooltip 推出：从锚点那一侧往里 2px，方向由 data-side 决定（变量各自赋值）。 */
+@keyframes dsh-motion-tip {
+  from {
+    opacity: 0;
+    translate: var(--dsh-motion-tip-x, 0) var(--dsh-motion-tip-y, 2px);
+  }
+}
+
 /* 一次性呼吸：只播一次、不循环。给审批卡片用。
    不用 color-mix 之类的颜色函数，只把外发光扩散开的同时退成 transparent，
    色值只来自宿主 token + transparent，不会因为颜色语法不支持而整条规则失效。 */
@@ -291,7 +299,33 @@ button[aria-haspopup]:active:not([aria-expanded="true"]) {
   animation: dsh-motion-underline 180ms var(--dsh-motion-ease) backwards;
 }
 
-/* ============ 八、无障碍 ============ */
+/* ============ 八、Tooltip ============ */
+
+/* 宿主的气泡只有 150ms 纯淡入（@keyframes _tooltip-in 里只写了 opacity:0），
+   从哪边弹出来完全没有交代。这里补 2px 的方向位移：
+   气泡本体靠 transform 做定位（data-side 决定 translate(-50%,-100%) 之类），
+   所以位移只能用独立的 translate 属性叠加，绝不碰 transform。
+   只认带 data-side 的（primitives 的 Tooltip 气泡都有），别的 role="tooltip"
+   元素（例如会话转弯导航的预览浮层）保持宿主原样。 */
+[role="tooltip"][data-side] {
+  animation: dsh-motion-tip 150ms var(--dsh-motion-ease) backwards;
+}
+[role="tooltip"][data-side^="top"] {
+  --dsh-motion-tip-y: 2px;
+}
+[role="tooltip"][data-side^="bottom"] {
+  --dsh-motion-tip-y: -2px;
+}
+[role="tooltip"][data-side^="left"] {
+  --dsh-motion-tip-x: 2px;
+  --dsh-motion-tip-y: 0;
+}
+[role="tooltip"][data-side^="right"] {
+  --dsh-motion-tip-x: -2px;
+  --dsh-motion-tip-y: 0;
+}
+
+/* ============ 九、无障碍 ============ */
 
 /* 系统层要求减少动态效果时，整套关掉（不是调慢）。 */
 @media (prefers-reduced-motion: reduce) {
@@ -313,6 +347,7 @@ button[aria-haspopup]:active:not([aria-expanded="true"]) {
   [data-market-entry],
   [data-team-task-details],
   [role="tab"][aria-selected="true"]::after,
+  [role="tooltip"][data-side],
   [data-menu-material],
   [data-menu-backing],
   [data-dsh-motion-pop] {

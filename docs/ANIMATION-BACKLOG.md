@@ -49,14 +49,15 @@ dsh-motion 是一个**纯样式插件**：往 `shell.overlay` 槽里塞一个 `<
 | 运行状态文字（进行中/完成/失败） | `[data-status]`、`[data-run-status]`、`[data-member-status]` | 0.5.0 已做（颜色过渡） |
 | 团队任务展开（箭头旋转 + 详情块入场） | `[data-team-task]` + `[data-expanded]` + `[data-team-task-details]` + `_chevron` 后缀 | 0.6.0 已做 |
 | Tab 切换（文字色 + 下划线撑开） | `[role="tab"][aria-selected="true"]::after` | 0.6.0 已做 |
+| Tooltip 出现（淡入 + 2px 方向位移） | `[role="tooltip"][data-side]`（primitives 的 `_bubble_*` 气泡，`role="tooltip"` + `data-side`/`data-portal`/`data-pinned`） | 0.6.1 已做。宿主 `@keyframes _tooltip-in` 只写了 `opacity:0`，纯淡入；位移用 `translate` 叠加，气泡定位靠的是 `transform` |
 
 ## 四、待验证的候选（下一轮从这里挑）
 
 | 候选 | 需要的钩子 | 预判 |
 | --- | --- | --- |
 | 输入框聚焦时的外发光过渡 | composer 的 textarea 类名（待查，composer 不在 `dsh-client-ui-composer` 包里） | 可能能落地，需先定位类名后缀 |
-| toast/通知出现与消失 | 未在 `@deepseek-ai` 下找到独立包，可能在 primitives 内联 | 待查 |
-| tooltip 出现（淡入 + 2px 位移） | 同上级，可能在 primitives 内联 | 待查 |
+| toast/通知出现与消失 | 未在 `@deepseek-ai` 下找到独立包，可能在 primitives 内联 | 待查（`role="status"` 在 30 多个包里都有，但那多是行内状态区，不是浮层 toast，硬选会把静态区块也带上动画） |
+| tooltip 出现（淡入 + 2px 位移） | primitives 内联在 `dsh-web-frontend/dist/assets/index-*.js`（`role:"tooltip"` + `data-side`），CSS 在 `index-*.css` 的 `_bubble_gm1ra_*` | **0.6.1 已做**（见第三节） |
 | tab 指示条滑动 | `role="tablist"` + `[data-active]`（settings-plugins 有 `data-active`） | **部分落地**：指示条是宿主自己画的 `::after`（`left:0;right:0` 绝对定位），不能跨 tab 滑动，只能让选中那条从中间撑开 → 0.6.0 已做 |
 | 侧栏拖拽调宽时的把手高亮 | `data-dragging`（AppFrame 的 `.mP3x-q_handle` 上有，8px 宽、`cursor:col-resize`） | **暂缓**：把手没有底色，要动只能自己画一条 2px 线，属于新增视觉而非动画，等用户明确要再说 |
 | 折叠/展开容器的高度动画 | 需要 `calc-size`/`interpolate-size`（Chrome 129+ 支持 `interpolate-size: allow-keywords`） | 值得试：`data-expanded`（agent-team 有）。0.6.0 先只做了展开内容的淡入上浮，没动高度 |
