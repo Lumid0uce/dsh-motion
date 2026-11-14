@@ -57,6 +57,9 @@ plugin_manager install_bundle target=<此仓库的绝对路径>
 
 装完刷新页面生效；替换已安装版本需要重启。
 
+
+完整版本变更见 [CHANGELOG.md](CHANGELOG.md)。
+
 ## 想自己调
 
 在自己的用户样式里覆盖这几个变量（`:where()` 零优先级，任何普通选择器都能盖掉）：
