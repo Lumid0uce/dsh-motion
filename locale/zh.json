@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "页面过渡动画",
-    "description": "给主面板切换、右侧栏换 tab、弹窗出现加上克制的进入动画。",
+    "description": "给主面板切换、右侧栏换 tab、弹窗、弹出菜单、工具提示、侧栏行、Tab 以及切换类控件加上克制的进入动画。",
     "detail": "docs/DETAIL.md"
   }
 }

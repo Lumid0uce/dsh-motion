@@ -1,9 +1,9 @@
 {
   "name": "@local/dsh-motion",
-  "version": "0.6.7",
+  "version": "0.6.8",
   "private": true,
   "type": "module",
-  "description": "Restrained transitions for panel switches, rightbar tab changes, dialogs, menus, tooltips, sidebar rows, tabs and value-switch controls.",
+  "description": "Restrained enter transitions for panel switches, rightbar tabs, dialogs, popup menus, tooltips, sidebar rows, tabs, tool cards and value-switch controls. Pure CSS, honours prefers-reduced-motion.",
   "exports": {
     ".": "./index.js",
     "./client": "./client.js",

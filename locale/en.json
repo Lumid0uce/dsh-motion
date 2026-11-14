@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Panel transitions",
-    "description": "Adds restrained enter animations to panel switches, right sidebar tab changes and dialogs.",
+    "description": "Adds restrained enter animations to panel switches, right sidebar tabs, dialogs, popup menus, tooltips, sidebar rows, tabs and value-switch controls.",
     "detail": "docs/DETAIL.md"
   }
 }
